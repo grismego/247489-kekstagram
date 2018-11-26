@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Алексей Кунчий](https://up.htmlacademy.ru/javascript/16/user/247489).
-* Наставник: `Неизвестно`.
+* Наставник: [Мария Филиппова](https://up.htmlacademy.ru/javascript/16/user/136678).
 
 ---
 
