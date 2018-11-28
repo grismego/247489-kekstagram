@@ -18,7 +18,7 @@ var DESCRIPTIONS = [
 ];
 var PHOTOS_COUNT = 25;
 var DISPLAY_COMMENTS = 5;
-var likes = {
+var Likes = {
   MIN: 15,
   MAX: 200
 };
@@ -31,12 +31,22 @@ var pictureTemplate = document.querySelector('#picture').content.querySelector('
 var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 var picturesBlock = document.querySelector('.pictures');
 var bigPicture = document.querySelector('.big-picture');
-bigPicture.classList.remove('hidden');
+// bigPicture.classList.remove('hidden');
 var commentsLoader = document.querySelector('.comments-loader');
 var commentsCount = document.querySelector('.social__comment-count');
 commentsLoader.classList.add('visually-hidden');
 commentsCount.classList.add('visually-hidden');
-
+var bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
+//нужно будет потом переделать
+var pictureContainer = document.querySelector('.pictures');
+var upload = document.querySelector('#upload-file');
+var uploadOverlay = document.querySelector('.img-upload__overlay');
+var reset = document.querySelector('.img-upload__cancel');
+var form = document.querySelector('.img-upload__form');
+var pin = document.querySelector('.effect-level__pin');
+var bar = document.querySelector('.effect-level__line');
+var line = document.querySelector('.effect-level__depth');
+var preview = document.querySelector('.img-upload__preview img');
 
 var getRandomInteger = function (min, max) {
   return Math.round(min - 0.5 + Math.random() * (max - min + 1));
@@ -69,7 +79,7 @@ var generatePhotos = function (count) {
   for (var i = 0; i < count; i++) {
     photos[i] = {
       url: 'photos/' + (i + 1) + '.jpg',
-      likes: getRandomInteger(likes.MIN, likes.MAX),
+      likes: getRandomInteger(Likes.MIN, Likes.MAX),
       comments: generateComments(getRandomInteger(0, 20)),
       description: getRandomElement(DESCRIPTIONS)
     };
@@ -95,10 +105,10 @@ var appendPicture = function () {
 };
 
 var createComment = function (comment) {
-  var commentsSection = commentTemplate.cloneNode(true);
-  commentsSection.querySelector('.social__picture').src = 'img/avatar-' + getRandomInteger(FIRST_AVATAR, LAST_AVATAR) + '.svg';
-  commentsSection.querySelector('.social__text').textContent = comment;
-  return commentsSection;
+  var commentSection = commentTemplate.cloneNode(true);
+  commentSection.querySelector('.social__picture').src = 'img/avatar-' + getRandomInteger(FIRST_AVATAR, LAST_AVATAR) + '.svg';
+  commentSection.querySelector('.social__text').textContent = comment;
+  return commentSection;
 };
 
 
@@ -123,5 +133,38 @@ var renderBigPicture = function (picture) {
   bigPicture.querySelector('.social__caption').textContent = picture.description;
 };
 
+upload.addEventListener('change', function (evt) {
+  uploadOverlay.classList.remove('hidden');
+  var selectedFile = upload.files[0];
+  preview.src = 'photos/' + selectedFile.name;
+});
+
+reset.addEventListener('click', function (evt) {
+  uploadOverlay.classList.add('hidden');
+  form.reset();
+});
+
+pin.addEventListener('mouseup', function (evt) {
+  console.log(evt);
+});
+
 appendPicture();
-renderBigPicture(pictures[0]);
+
+
+var thumbnails = document.querySelectorAll('.picture');
+
+var addThumbnailClickHandler = function (thumbnail, photo) {
+  thumbnail.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    renderBigPicture(pictures[photo]);
+    bigPicture.classList.remove('hidden');
+  });
+};
+
+for (var i = 0; i < thumbnails.length; i++) {
+  addThumbnailClickHandler(thumbnails[i], i);
+}
+
+bigPictureCancel.addEventListener('click', function () {
+  bigPicture.classList.add('hidden');
+});
