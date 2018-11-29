@@ -28,6 +28,7 @@ var KeyCode = {
   ENTER: 13,
   ESC: 27
 };
+
 var pictures = [];
 var commentsBlock = document.querySelector('.social__comments');
 
@@ -49,8 +50,8 @@ var uploadOverlay = document.querySelector('.img-upload__overlay');
 // var upload = document.querySelector('#upload-file');
 // var reset = document.querySelector('.img-upload__cancel');
 var form = document.querySelector('.img-upload__form');
-// var pin = document.querySelector('.effect-level__pin');
-// var bar = document.querySelector('.effect-level__line');
+var pin = document.querySelector('.effect-level__pin');
+var bar = document.querySelector('.effect-level__line');
 // var line = document.querySelector('.effect-level__depth');
 // var preview = document.querySelector('.img-upload__preview img');
 
@@ -187,10 +188,29 @@ uploadFormClose.addEventListener('click', function () {
   form.reset();
 });
 
+var getEffectLevel = function (currentPosition, maxPosition) {
+  return Math.round(currentPosition * 100 / maxPosition);
+};
+
+var effectLevelInput = document.querySelector('.effect-level__value');
 // Не знаю что делать с пином =\
-// pin.addEventListener('mouseup', function () {
-//   console.log(pin.offsetLeft);
-// });
+pin.addEventListener('mouseup', function () {
+  var valueEffect = getEffectLevel(pin.offsetLeft, bar.offsetWidth);
+  effectLevelInput.value = valueEffect;
+  if (fullPhoto.matches('.effects__preview--chrome')) {
+    fullPhoto.style.filter = 'grayscale(' + 1 / 100 * valueEffect + ')';
+  } else if (fullPhoto.matches('.effects__preview--sepia')) {
+    fullPhoto.style.filter = 'sepia(' + 1 / 100 * valueEffect + ')';
+  } else if (fullPhoto.matches('.effects__preview--marvin')) {
+    fullPhoto.style.filter = 'invert(' + valueEffect + '%)';
+  } else if (fullPhoto.matches('.effects__preview--phobos')) {
+    fullPhoto.style.filter = 'blur(' + 3 / 100 * valueEffect + 'px)';
+  } else if (fullPhoto.matches('.effects__preview--heat')) {
+    fullPhoto.style.filter = 'brightness(' + 3 / 100 * valueEffect + ')';
+  } else {
+    fullPhoto.style.filter = '';
+  }
+});
 
 appendPicture();
 
