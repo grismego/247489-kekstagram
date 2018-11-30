@@ -226,33 +226,33 @@ var addThumbnailClickHandler = function (thumbnail) {
   });
 };
 
-// for (var i = 0; i < thumbnails.length; i++) {
-//   addThumbnailClickHandler(thumbnails[i]);
-// }
+for (var i = 0; i < thumbnails.length; i++) {
+  addThumbnailClickHandler(thumbnails[i]);
+}
 
 bigPictureCancel.addEventListener('click', function () {
   closePhoto();
 });
 
 
-var validateHashtags = function (hashtags) {
-  for (var i = 0; i < hashtags.length; i++) {
-    if (hashtags[i][0] !== '#') {
-      hashtag.setCustomValidity('Хэштег должен начинаться с символа #');
-    } else if (hashtags[i].length > 20) {
-      hashtag.setCustomValidity('Длинна хештега не должна превышать 20 символов');
-    } else if (hashtags.length > 5) {
-      hashtag.setCustomValidity('Допстимое значение - не больше 5 хэштегов');
-    } else {
-      hashtag.setCustomValidity('');
-    }
-  }
-};
+// var validateHashtags = function (hashtags) {
+//   for (var i = 0; i < hashtags.length; i++) {
+//     if (hashtags[i][0] !== '#') {
+//       hashtag.setCustomValidity('Хэштег должен начинаться с символа #');
+//     } else if (hashtags[i].length > 20) {
+//       hashtag.setCustomValidity('Длинна хештега не должна превышать 20 символов');
+//     } else if (hashtags.length > 5) {
+//       hashtag.setCustomValidity('Допстимое значение - не больше 5 хэштегов');
+//     } else {
+//       hashtag.setCustomValidity('');
+//     }
+//   }
+// };
 
- // && hashtags.indexOf(hashtags[i], -1) !== hashtags[i]
-hashtag.addEventListener('input', function () {
-  var hashValue = hashtag.value;
-  var hashArrays = hashValue.split(' ');
-  validateHashtags(hashArrays);
-  console.log(hashArrays);
-});
+// && hashtags.indexOf(hashtags[i], -1) !== hashtags[i]
+// hashtag.addEventListener('input', function () {
+//   var hashValue = hashtag.value;
+//   var hashArrays = hashValue.split(' ');
+//   // validateHashtags(hashArrays);
+//   // console.log(hashArrays);
+// });
