@@ -52,6 +52,7 @@ var uploadOverlay = document.querySelector('.img-upload__overlay');
 var form = document.querySelector('.img-upload__form');
 var pin = document.querySelector('.effect-level__pin');
 var bar = document.querySelector('.effect-level__line');
+var hashtag = document.querySelector('.text__hashtags');
 // var line = document.querySelector('.effect-level__depth');
 // var preview = document.querySelector('.img-upload__preview img');
 
@@ -221,13 +222,37 @@ var addThumbnailClickHandler = function (thumbnail) {
   thumbnail.addEventListener('click', function () {
     fullPhoto.classList.remove(fullPhoto.classList[1]);
     fullPhoto.classList.add('effects__preview--' + thumbnail.value);
+    fullPhoto.style.filter = '';
   });
 };
 
-for (var i = 0; i < thumbnails.length; i++) {
-  addThumbnailClickHandler(thumbnails[i]);
-}
+// for (var i = 0; i < thumbnails.length; i++) {
+//   addThumbnailClickHandler(thumbnails[i]);
+// }
 
 bigPictureCancel.addEventListener('click', function () {
   closePhoto();
+});
+
+
+var validateHashtags = function (hashtags) {
+  for (var i = 0; i < hashtags.length; i++) {
+    if (hashtags[i][0] !== '#') {
+      hashtag.setCustomValidity('Хэштег должен начинаться с символа #');
+    } else if (hashtags[i].length > 20) {
+      hashtag.setCustomValidity('Длинна хештега не должна превышать 20 символов');
+    } else if (hashtags.length > 5) {
+      hashtag.setCustomValidity('Допстимое значение - не больше 5 хэштегов');
+    } else {
+      hashtag.setCustomValidity('');
+    }
+  }
+};
+
+ // && hashtags.indexOf(hashtags[i], -1) !== hashtags[i]
+hashtag.addEventListener('input', function () {
+  var hashValue = hashtag.value;
+  var hashArrays = hashValue.split(' ');
+  validateHashtags(hashArrays);
+  console.log(hashArrays);
 });
