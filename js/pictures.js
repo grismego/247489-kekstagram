@@ -111,9 +111,12 @@ var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__v
 // var pictureContainer = document.querySelector('.pictures');
 // var upload = document.querySelector('#upload-file');
 // var reset = document.querySelector('.img-upload__cancel');
-// var hashtag = document.querySelector('.text__hashtags');
 // var line = document.querySelector('.effect-level__depth');
 // var preview = document.querySelector('.img-upload__preview img');
+
+
+// var hashtag = document.querySelector('.text__hashtags');
+
 
 var getRandomInteger = function (min, max) {
   return Math.round(min - 0.5 + Math.random() * (max - min + 1));
@@ -322,6 +325,19 @@ uploadFileScaleValueIncrease.addEventListener('click', function () {
 });
 
 // валидация
+
+// var checkRepeatHashtags = function (array) {
+//   for (var i = 0; i < array.length; i++) {
+//     var a = array[i];
+//     for (var j = 0; j < array.length; j++) {
+//       if (a === array[j] && i !== j) {
+//         return true;
+//       }
+//     }
+//   }
+//   return false;
+// };
+
 // var validateHashtags = function (hashtags) {
 //   for (var i = 0; i < hashtags.length; i++) {
 //     if (hashtags[i][0] !== '#') {
@@ -330,16 +346,16 @@ uploadFileScaleValueIncrease.addEventListener('click', function () {
 //       hashtag.setCustomValidity('Длинна хештега не должна превышать 20 символов');
 //     } else if (hashtags.length > 5) {
 //       hashtag.setCustomValidity('Допстимое значение - не больше 5 хэштегов');
+//     } else if (checkRepeatHashtags(hashtags)) {
+//       hashtag.setCustomValidity('Не должны повторяться');
 //     } else {
 //       hashtag.setCustomValidity('');
 //     }
 //   }
 // };
-
-// && hashtags.indexOf(hashtags[i], -1) !== hashtags[i]
+//
 // hashtag.addEventListener('input', function () {
 //   var hashValue = hashtag.value;
 //   var hashArrays = hashValue.split(' ');
-//   // validateHashtags(hashArrays);
-//   // console.log(hashArrays);
+//   validateHashtags(hashArrays);
 // });
