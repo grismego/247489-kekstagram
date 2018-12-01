@@ -20,7 +20,7 @@ var PHOTOS_COUNT = 25;
 var DISPLAY_COMMENTS = 5;
 var FIRST_AVATAR = 1;
 var LAST_AVATAR = 6;
-var Likes = {
+var Like = {
   MIN: 15,
   MAX: 200
 };
@@ -73,6 +73,12 @@ var PinValue = {
   MIN: 0,
   MAX: 100
 };
+var ScaleValue = {
+  MIN: 25,
+  STEP: 25,
+  MAX: 100,
+  DEFAULT: 100
+};
 var pictures = [];
 var commentsListElement = document.querySelector('.social__comments');
 
@@ -95,10 +101,10 @@ var uploadPopupElement = uploadElement.querySelector('.img-upload__overlay');
 var uploadPopupCloseElement = uploadElement.querySelector('#upload-cancel');
 var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
 var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__preview img');
-var uploadFileScale = uploadElement.querySelector('.img-upload__scale');
-var uploadFileScaleValue = uploadFileScale.querySelector('.scale__control--value');
-var uploadFileScaleValueDecrease = uploadFileScale.querySelector('.scale__control--smaller');
-var uploadFileScaleValueIncrease = uploadFileScale.querySelector('.scale__control--bigger');
+var scaleElement = uploadElement.querySelector('.img-upload__scale');
+var scaleValueElement = scaleElement.querySelector('.scale__control--value');
+var scaleSmallerElement = scaleElement.querySelector('.scale__control--smaller');
+var scaleBiggerElement = scaleElement.querySelector('.scale__control--bigger');
 //  Элементы для работы со слайдером
 
 var effectLevelElement = uploadElement.querySelector('.effect-level');
@@ -149,7 +155,7 @@ var generatePhotos = function (count) {
   for (var i = 0; i < count; i++) {
     photos[i] = {
       url: 'photos/' + (i + 1) + '.jpg',
-      likes: getRandomInteger(Likes.MIN, Likes.MAX),
+      likes: getRandomInteger(Like.MIN, Like.MAX),
       comments: generateComments(getRandomInteger(0, 20)),
       description: getRandomElement(DESCRIPTIONS)
     };
@@ -193,7 +199,7 @@ var closePhoto = function () {
 var openPhoto = function () {
   bigPictureElement.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
-  bigPictureElement.querySelector('.social__comments').innerHTML = '';
+  commentsListElement.innerHTML = '';
   document.addEventListener('keydown', onPhotoEscPress);
 };
 
@@ -280,23 +286,36 @@ var getEffectLevel = function (currentPosition, maxPosition) {
   return Math.round(currentPosition * 100 / maxPosition);
 };
 
+
+var setPhotoScale = function (value) {
+  var currentScale = parseInt(scaleValueElement.value, 10);
+  currentScale += ScaleValue.STEP * value;
+  return currentScale;
+};
+
 var effectLevelInput = document.querySelector('.effect-level__value');
 
 effectPinElement.addEventListener('mouseup', function () {
   var valueEffect = getEffectLevel(effectPinElement.offsetLeft, effectLineElement.offsetWidth);
   effectLevelInput.value = valueEffect;
-  if (imgPreviewWrapperElement.matches('.effects__preview--chrome')) {
-    imgPreviewWrapperElement.style.filter = 'grayscale(' + 1 / 100 * valueEffect + ')';
-  } else if (imgPreviewWrapperElement.matches('.effects__preview--sepia')) {
-    imgPreviewWrapperElement.style.filter = 'sepia(' + 1 / 100 * valueEffect + ')';
-  } else if (imgPreviewWrapperElement.matches('.effects__preview--marvin')) {
-    imgPreviewWrapperElement.style.filter = 'invert(' + valueEffect + '%)';
-  } else if (imgPreviewWrapperElement.matches('.effects__preview--phobos')) {
-    imgPreviewWrapperElement.style.filter = 'blur(' + 3 / 100 * valueEffect + 'px)';
-  } else if (imgPreviewWrapperElement.matches('.effects__preview--heat')) {
-    imgPreviewWrapperElement.style.filter = 'brightness(' + 3 / 100 * valueEffect + ')';
-  } else {
-    imgPreviewWrapperElement.style.filter = '';
+  switch (imgPreviewWrapperElement.matches()) {
+    case '.effects__preview--chrome':
+      imgPreviewWrapperElement.style.filter = 'grayscale(' + 1 / 100 * valueEffect + ')';
+      break;
+    case '.effects__preview--sepia':
+      imgPreviewWrapperElement.style.filter = 'sepia(' + 1 / 100 * valueEffect + ')';
+      break;
+    case '.effects__preview--marvin':
+      imgPreviewWrapperElement.style.filter = 'invert(' + valueEffect + '%)';
+      break;
+    case '.effects__preview--phobos':
+      imgPreviewWrapperElement.style.filter = 'blur(' + 3 / 100 * valueEffect + 'px)';
+      break;
+    case '.effects__preview--heat':
+      imgPreviewWrapperElement.style.filter = 'brightness(' + 3 / 100 * valueEffect + ')';
+      break;
+    default:
+      imgPreviewWrapperElement.style.filter = '';
   }
 });
 
@@ -306,23 +325,23 @@ bigPictureCloseElement.addEventListener('click', function () {
   closePhoto();
 });
 
-uploadFileScaleValueDecrease.addEventListener('click', function () {
-  if (parseInt(uploadFileScaleValue.value, 10) <= 25) {
+scaleSmallerElement.addEventListener('click', function () {
+  if (parseInt(scaleValueElement.value, 10) <= ScaleValue.MIN) {
     return;
-  } else {
-    uploadFileScaleValue.value = parseInt(uploadFileScaleValue.value, 10) - 25 + '%';
-    imgPreviewWrapperElement.style.transform = 'scale(' + parseInt(uploadFileScaleValue.value, 10) / 100 + ')';
   }
+  imgPreviewWrapperElement.style.transform = 'scale(' + setPhotoScale(-1) / 100 + ')';
+  scaleValueElement.value = setPhotoScale(-1) + '%';
 });
 
-uploadFileScaleValueIncrease.addEventListener('click', function () {
-  if (parseInt(uploadFileScaleValue.value, 10) === 100) {
+scaleBiggerElement.addEventListener('click', function () {
+  if (parseInt(scaleValueElement.value, 10) >= ScaleValue.MAX) {
     return;
-  } else {
-    uploadFileScaleValue.value = parseInt(uploadFileScaleValue.value, 10) + 25 + '%';
-    imgPreviewWrapperElement.style.transform = 'scale(' + parseInt(uploadFileScaleValue.value, 10) / 100 + ')';
   }
+  imgPreviewWrapperElement.style.transform = 'scale(' + setPhotoScale(1) / 100 + ')';
+  scaleValueElement.value = setPhotoScale(1) + '%';
 });
+
+
 
 // валидация
 
