@@ -311,7 +311,7 @@ var applyEffect = function (value) {
 
 };
 
-imgPreviewElement.style.filter = EffectParameter[currentEffectName].PROPERTY + '(' + value * (EffectParameter[currentEffectName].MAX_VALUE - EffectParameter[currentEffectName].MIN_VALUE) / EffectValue.MAX + EffectParameter[currentEffectName].MIN_VALUE + EffectParameter[currentEffectName].UNIT + ')'
+// imgPreviewElement.style.filter = EffectParameter[currentEffectName].PROPERTY + '(' + value * (EffectParameter[currentEffectName].MAX_VALUE - EffectParameter[currentEffectName].MIN_VALUE) / EffectValue.MAX + EffectParameter[currentEffectName].MIN_VALUE + EffectParameter[currentEffectName].UNIT + ')'
 
 var setDefaultEffect = function () {
   var defaultRadioElement = effectsListElement.querySelector('#effect-' + DEFAULT_EFFECT);
