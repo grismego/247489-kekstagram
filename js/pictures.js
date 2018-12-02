@@ -82,6 +82,13 @@ var ScaleValue = {
 };
 var DEFAULT_EFFECT = 'none';
 
+var Hashtag = {
+  QUANITY: 5,
+  HASH_SYMBOL: '#',
+  MAX_LENGTH: 20,
+  MIN_LENGTH: 2
+};
+
 var pictures = [];
 var commentsListElement = document.querySelector('.social__comments');
 
@@ -129,7 +136,8 @@ var inputLoadFileElement = document.querySelector('#upload-file');
 // var preview = document.querySelector('.img-upload__preview img');
 
 
-// var hashtag = document.querySelector('.text__hashtags');
+var hashtagElement = document.querySelector('.text__hashtags');
+var descriptionElement = document.querySelector('.text__description');
 
 
 var getRandomInteger = function (min, max) {
@@ -366,40 +374,73 @@ scaleBiggerElement.addEventListener('click', function () {
 
 // валидация
 
-// var checkRepeatHashtags = function (array) {
-//   for (var i = 0; i < array.length; i++) {
-//     var a = array[i];
-//     for (var j = 0; j < array.length; j++) {
-//       if (a === array[j] && i !== j) {
-//         return true;
-//       }
-//     }
-//   }
-//   return false;
-// };
+var checkRepeatHashtags = function (hashtags) {
+  for (var i = 0; i < hashtags.length; i++) {
+    var currentHashtag = hashtags[i];
+    for (var j = 0; j < hashtags.length; j++) {
+      if (currentHashtag === hashtags[j] && i !== j) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
 
-// var validateHashtags = function (hashtags) {
-//   for (var i = 0; i < hashtags.length; i++) {
-//     if (hashtags[i][0] !== '#') {
-//       hashtag.setCustomValidity('Хэштег должен начинаться с символа #');
-//     } else if (hashtags[i].length > 20) {
-//       hashtag.setCustomValidity('Длинна хештега не должна превышать 20 символов');
-//     } else if (hashtags.length > 5) {
-//       hashtag.setCustomValidity('Допстимое значение - не больше 5 хэштегов');
-//     } else if (checkRepeatHashtags(hashtags)) {
-//       hashtag.setCustomValidity('Не должны повторяться');
-//     } else {
-//       hashtag.setCustomValidity('');
-//     }
-//   }
-// };
-//
-// hashtag.addEventListener('input', function () {
-//   var hashValue = hashtag.value;
-//   var hashArrays = hashValue.split(' ');
-//   validateHashtags(hashArrays);
-// });
+var checkRepeatSymbol = function (hashtags, symbol) {
 
+  for (var i = 0; i < hashtags.length; i++) {
+    var currentHashtag = hashtags[i]; // собака
+    for (var j = 0; j < currentHashtag.length; j++) { // длинна 6
+      if (currentHashtag[j] === symbol && j !== 0) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+var validateHashtags = function (hashtags) {
+  for (var i = 0; i < hashtags.length; i++) {
+    hashtags[i] = hashtags[i].toLowerCase();
+    if (hashtags[i][0] !== Hashtag.HASH_SYMBOL && hashtags[i][0] !== ' ') {
+      hashtagElement.setCustomValidity('Хэштег должен начинаться с символа # и не содержать пробелов');
+    } else if (hashtags[i].length > Hashtag.MAX_LENGTH) {
+      hashtagElement.setCustomValidity('Длинна хештега не должна превышать 20 символов');
+    } else if (hashtags[i].length < Hashtag.MIN_LENGTH) {
+      hashtagElement.setCustomValidity('Минимальная длинна хештега - 2 символа');
+    } else if (hashtags.length > Hashtag.QUANITY) {
+      hashtagElement.setCustomValidity('Допстимое количество  хэштегов  - не более 5');
+    } else if (checkRepeatHashtags(hashtags)) {
+      hashtagElement.setCustomValidity('Хэштеги не должны повторяться');
+    } else if (checkRepeatSymbol(hashtags, '#')) {
+      hashtagElement.setCustomValidity('Некорректный хэштег');
+    } else {
+      hashtagElement.setCustomValidity('');
+    }
+  }
+  return hashtags;
+};
+
+hashtagElement.addEventListener('input', function () {
+  var hashtags = hashtagElement.value.toLowerCase().split(' ');
+  validateHashtags(hashtags);
+});
+
+hashtagElement.addEventListener('focusin', function () {
+  document.removeEventListener('keydown', onFormEscPress);
+});
+
+hashtagElement.addEventListener('focusout', function () {
+  document.addEventListener('keydown', onFormEscPress);
+});
+
+descriptionElement.addEventListener('focusin', function () {
+  document.removeEventListener('keydown', onFormEscPress);
+});
+
+descriptionElement.addEventListener('focusout', function () {
+  document.addEventListener('keydown', onFormEscPress);
+});
 
 // drag and drop
 
