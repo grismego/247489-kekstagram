@@ -317,6 +317,7 @@ var setDefaultEffect = function () {
   var defaultRadioElement = effectsListElement.querySelector('#effect-' + DEFAULT_EFFECT);
   defaultRadioElement.checked = true;
   imgPreviewElement.classList = '';
+  imgPreviewElement.style.filter = '';
   imgPreviewElement.classList.add(DEFAULT_EFFECT);
   effectLevelElement.classList.add('hidden');
 };
