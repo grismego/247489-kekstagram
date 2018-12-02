@@ -110,12 +110,15 @@ var scaleBiggerElement = scaleElement.querySelector('.scale__control--bigger');
 var effectLevelElement = uploadElement.querySelector('.effect-level');
 var effectsListElement = uploadElement.querySelector('.effects__list');
 var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
-var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
 var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
 var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
 
+var radioChecked = effectsListElement.querySelector('.effects__radio[checked]');
+var previewEffectName = radioChecked.value;
+var currentEffect = 'effects__preview--' + previewEffectName;
+
 // var pictureContainer = document.querySelector('.pictures');
-// var upload = document.querySelector('#upload-file');
+var inputLoadFileElement = document.querySelector('#upload-file');
 // var reset = document.querySelector('.img-upload__cancel');
 // var line = document.querySelector('.effect-level__depth');
 // var preview = document.querySelector('.img-upload__preview img');
@@ -179,13 +182,14 @@ var onPhotoEscPress = function (evt) {
 
 var closeForm = function () {
   uploadPopupElement.classList.add('hidden');
-  // потом нужно будет заменить ресет
-  // form.reset();
+  inputLoadFileElement.value = null;
   document.removeEventListener('keydown', onFormEscPress);
 };
 
 var openForm = function () {
   uploadPopupElement.classList.remove('hidden');
+  setDefaultPinPosition();
+  effectLevelValueElement.setAttribute('value', PinValue.MAX);
   document.addEventListener('keydown', onFormEscPress);
 };
 
@@ -255,37 +259,17 @@ var renderBigPicture = function (picture) {
 
 uploadFileElement.addEventListener('change', function () {
   openForm();
-
-  var thumbnails = document.querySelectorAll('.effects__radio');
-
-  var addThumbnailClickHandler = function (thumbnail) {
-    thumbnail.addEventListener('click', function () {
-      imgPreviewWrapperElement.classList.remove(imgPreviewWrapperElement.classList[1]);
-      imgPreviewWrapperElement.classList.add('effects__preview--' + thumbnail.value);
-      imgPreviewWrapperElement.style.filter = '';
-      if (imgPreviewWrapperElement.classList.contains('effects__preview--none')) {
-        effectLevelElement.classList.add('visually-hidden');
-      } else {
-        effectLevelElement.classList.remove('visually-hidden');
-      }
-    });
-  };
-
-  for (var i = 0; i < thumbnails.length; i++) {
-    addThumbnailClickHandler(thumbnails[i]);
-  }
+  setDefaultPinPosition();
 });
+
+var setDefaultPinPosition = function () {
+  effectPinElement.style.left = EffectValue.DEFAULT + '%';
+  effectDepthElement.style.width = effectPinElement.style.left;
+};
 
 uploadPopupCloseElement.addEventListener('click', function () {
   closeForm();
-  // потом нужно будет заменить ресет
-  // form.reset();
 });
-
-var getEffectLevel = function (currentPosition, maxPosition) {
-  return Math.round(currentPosition * 100 / maxPosition);
-};
-
 
 var setPhotoScale = function (value) {
   var currentScale = parseInt(scaleValueElement.value, 10);
@@ -293,37 +277,64 @@ var setPhotoScale = function (value) {
   return currentScale;
 };
 
-var effectLevelInput = document.querySelector('.effect-level__value');
-
-effectPinElement.addEventListener('mouseup', function () {
-  var valueEffect = getEffectLevel(effectPinElement.offsetLeft, effectLineElement.offsetWidth);
-  effectLevelInput.value = valueEffect;
-  switch (imgPreviewWrapperElement.matches()) {
+// применение эффекта
+var applyEffect = function (value) {
+  switch (currentEffect) {
     case '.effects__preview--chrome':
-      imgPreviewWrapperElement.style.filter = 'grayscale(' + 1 / 100 * valueEffect + ')';
+      imgPreviewWrapperElement.style.filter = EffectParameter.chrome.PROPERTY + '(' + (value) / EffectParameter.MAX_VALUE + EffectParameter.chrome.UNITS + ')';
       break;
     case '.effects__preview--sepia':
-      imgPreviewWrapperElement.style.filter = 'sepia(' + 1 / 100 * valueEffect + ')';
+      imgPreviewWrapperElement.style.filter = EffectParameter.sepia.PROPERTY + '(' + (value) / EffectParameter.MAX_VALUE + EffectParameter.sepia.UNITS + ')';
       break;
     case '.effects__preview--marvin':
-      imgPreviewWrapperElement.style.filter = 'invert(' + valueEffect + '%)';
+      imgPreviewWrapperElement.style.filter = EffectParameter.marvin.PROPERTY + '(' + (value) * EffectParameter.marvin.MAX_VALUE / EffectParameter.MAX_VALUE + EffectParameter.marvin.UNITS + ')';
       break;
     case '.effects__preview--phobos':
-      imgPreviewWrapperElement.style.filter = 'blur(' + 3 / 100 * valueEffect + 'px)';
+      imgPreviewWrapperElement.style.filter = EffectParameter.phobos.PROPERTY + '(' + (value) * EffectParameter.phobos.MAX_VALUE / EffectParameter.MAX_VALUE + EffectParameter.phobos.UNITS + ')';
       break;
     case '.effects__preview--heat':
-      imgPreviewWrapperElement.style.filter = 'brightness(' + 3 / 100 * valueEffect + ')';
+      imgPreviewWrapperElement.style.filter = EffectParameter.heat.PROPERTY + '(' + (value) * EffectParameter.heat.MAX_VALUE / EffectParameter.MAX_VALUE + EffectParameter.heat.UNITS + ')';
       break;
     default:
       imgPreviewWrapperElement.style.filter = '';
   }
-});
+};
+
+// применение эффекта
+var onPhotoEffectClick = function (evt) {
+  var target = evt.target;
+  if (target.tagName !== 'INPUT') {
+    return;
+  }
+
+  imgPreviewElement.classList = '';
+  var effectName = target.value;
+
+  currentEffect = 'effects__preview--' + effectName;
+
+  if (currentEffect !== 'effects__preview--none') {
+    effectLevelElement.classList.remove('hidden');
+    imgPreviewElement.classList.add(currentEffect);
+  } else {
+    effectLevelElement.classList.add('hidden');
+    imgPreviewElement.classList.add(currentEffect);
+  }
+
+  effectLevelValueElement.setAttribute('value', EffectValue.DEFAULT);
+  applyEffect(EffectValue.DEFAULT);
+  setDefaultPinPosition();
+};
+
+effectsListElement.addEventListener('click', onPhotoEffectClick);
 
 appendPicture();
 
 bigPictureCloseElement.addEventListener('click', function () {
   closePhoto();
 });
+
+
+// Увеличение/Уменьшение фото
 
 scaleSmallerElement.addEventListener('click', function () {
   if (parseInt(scaleValueElement.value, 10) <= ScaleValue.MIN) {
@@ -340,7 +351,6 @@ scaleBiggerElement.addEventListener('click', function () {
   imgPreviewWrapperElement.style.transform = 'scale(' + setPhotoScale(1) / 100 + ')';
   scaleValueElement.value = setPhotoScale(1) + '%';
 });
-
 
 
 // валидация
