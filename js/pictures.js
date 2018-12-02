@@ -413,7 +413,7 @@ var validateHashtags = function (hashtags) {
     } else if (checkRepeatHashtags(hashtags)) {
       hashtagElement.setCustomValidity('Хэштеги не должны повторяться');
     } else if (checkRepeatSymbol(hashtags, '#')) {
-      hashtagElement.setCustomValidity('Некорректный хэштег');
+      hashtagElement.setCustomValidity('Хэштеги должны разделяться пробелами');
     } else {
       hashtagElement.setCustomValidity('');
     }
