@@ -405,11 +405,11 @@ var validateHashtags = function (hashtags) {
     if (hashtags[i][0] !== Hashtag.HASH_SYMBOL && hashtags[i][0] !== ' ') {
       hashtagElement.setCustomValidity('Хэштег должен начинаться с символа # и не содержать пробелов');
     } else if (hashtags[i].length > Hashtag.MAX_LENGTH) {
-      hashtagElement.setCustomValidity('Длинна хештега не должна превышать 20 символов');
-    } else if (hashtags[i].length < Hashtag.MIN_LENGTH) {
-      hashtagElement.setCustomValidity('Минимальная длинна хештега - 2 символа');
+      hashtagElement.setCustomValidity('Длина хештега не должна превышать 20 символов');
+    } else if (hashtags[i].length === 1) {
+      hashtagElement.setCustomValidity('Хештег не может состоять только из одной решётки');
     } else if (hashtags.length > Hashtag.QUANITY) {
-      hashtagElement.setCustomValidity('Допстимое количество  хэштегов  - не более 5');
+      hashtagElement.setCustomValidity('Допустимое количество  хэштегов  не более 5');
     } else if (checkRepeatHashtags(hashtags)) {
       hashtagElement.setCustomValidity('Хэштеги не должны повторяться');
     } else if (checkRepeatSymbol(hashtags, '#')) {
