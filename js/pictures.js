@@ -29,6 +29,7 @@ var KeyCode = {
   ESC: 27
 };
 var EffectParameter = {
+  DEFAULT_CLASS: 'effects__preview--heat',
   chrome: {
     CLASS: 'effects__preview--chrome',
     PROPERTY: 'grayscale',
@@ -79,6 +80,8 @@ var ScaleValue = {
   MAX: 100,
   DEFAULT: 100
 };
+var DEFAULT_EFFECT = 'effects__preview--none';
+
 var pictures = [];
 var commentsListElement = document.querySelector('.social__comments');
 
@@ -113,9 +116,8 @@ var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
 var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
 var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
 
-var radioChecked = effectsListElement.querySelector('.effects__radio[checked]');
-var previewEffectName = radioChecked.value;
-var currentEffect = 'effects__preview--' + previewEffectName;
+var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
+var currentEffectClass = 'effects__preview--' + currentEffectName;
 
 // var pictureContainer = document.querySelector('.pictures');
 var inputLoadFileElement = document.querySelector('#upload-file');
@@ -259,6 +261,7 @@ var renderBigPicture = function (picture) {
 
 uploadFileElement.addEventListener('change', function () {
   openForm();
+  setDefaultEffect();
   setDefaultPinPosition();
 });
 
@@ -274,30 +277,38 @@ uploadPopupCloseElement.addEventListener('click', function () {
 var setPhotoScale = function (value) {
   var currentScale = parseInt(scaleValueElement.value, 10);
   currentScale += ScaleValue.STEP * value;
-  return currentScale;
+  if (currentScale >= ScaleValue.MIN && currentScale <= ScaleValue.MAX) {
+    scaleValueElement.value = currentScale + '%';
+    imgPreviewWrapperElement.style.transform = 'scale(' + currentScale / 100 + ')';
+  }
 };
 
 // применение эффекта
 var applyEffect = function (value) {
-  switch (currentEffect) {
-    case '.effects__preview--chrome':
+  switch (currentEffectClass) {
+    case 'effects__preview--chrome':
       imgPreviewWrapperElement.style.filter = EffectParameter.chrome.PROPERTY + '(' + (value) / EffectParameter.MAX_VALUE + EffectParameter.chrome.UNITS + ')';
       break;
-    case '.effects__preview--sepia':
+    case 'effects__preview--sepia':
       imgPreviewWrapperElement.style.filter = EffectParameter.sepia.PROPERTY + '(' + (value) / EffectParameter.MAX_VALUE + EffectParameter.sepia.UNITS + ')';
       break;
-    case '.effects__preview--marvin':
+    case 'effects__preview--marvin':
       imgPreviewWrapperElement.style.filter = EffectParameter.marvin.PROPERTY + '(' + (value) * EffectParameter.marvin.MAX_VALUE / EffectParameter.MAX_VALUE + EffectParameter.marvin.UNITS + ')';
       break;
-    case '.effects__preview--phobos':
+    case 'effects__preview--phobos':
       imgPreviewWrapperElement.style.filter = EffectParameter.phobos.PROPERTY + '(' + (value) * EffectParameter.phobos.MAX_VALUE / EffectParameter.MAX_VALUE + EffectParameter.phobos.UNITS + ')';
       break;
-    case '.effects__preview--heat':
+    case 'effects__preview--heat':
       imgPreviewWrapperElement.style.filter = EffectParameter.heat.PROPERTY + '(' + (value) * EffectParameter.heat.MAX_VALUE / EffectParameter.MAX_VALUE + EffectParameter.heat.UNITS + ')';
       break;
     default:
       imgPreviewWrapperElement.style.filter = '';
   }
+};
+
+var setDefaultEffect = function () {
+  imgPreviewElement.classList = '';
+  imgPreviewElement.classList.add(EffectParameter.DEFAULT_CLASS);
 };
 
 // применение эффекта
@@ -306,21 +317,17 @@ var onPhotoEffectClick = function (evt) {
   if (target.tagName !== 'INPUT') {
     return;
   }
-
   imgPreviewElement.classList = '';
-  var effectName = target.value;
 
-  currentEffect = 'effects__preview--' + effectName;
-
-  if (currentEffect !== 'effects__preview--none') {
+  currentEffectClass = 'effects__preview--' + target.value;
+  imgPreviewElement.classList.add(currentEffectClass);
+  if (currentEffectClass !== DEFAULT_EFFECT) {
     effectLevelElement.classList.remove('hidden');
-    imgPreviewElement.classList.add(currentEffect);
   } else {
     effectLevelElement.classList.add('hidden');
-    imgPreviewElement.classList.add(currentEffect);
   }
 
-  effectLevelValueElement.setAttribute('value', EffectValue.DEFAULT);
+  effectLevelValueElement.value = EffectValue.DEFAULT;
   applyEffect(EffectValue.DEFAULT);
   setDefaultPinPosition();
 };
@@ -335,21 +342,12 @@ bigPictureCloseElement.addEventListener('click', function () {
 
 
 // Увеличение/Уменьшение фото
-
 scaleSmallerElement.addEventListener('click', function () {
-  if (parseInt(scaleValueElement.value, 10) <= ScaleValue.MIN) {
-    return;
-  }
-  imgPreviewWrapperElement.style.transform = 'scale(' + setPhotoScale(-1) / 100 + ')';
-  scaleValueElement.value = setPhotoScale(-1) + '%';
+  setPhotoScale(-1);
 });
 
 scaleBiggerElement.addEventListener('click', function () {
-  if (parseInt(scaleValueElement.value, 10) >= ScaleValue.MAX) {
-    return;
-  }
-  imgPreviewWrapperElement.style.transform = 'scale(' + setPhotoScale(1) / 100 + ')';
-  scaleValueElement.value = setPhotoScale(1) + '%';
+  setPhotoScale(1);
 });
 
 
