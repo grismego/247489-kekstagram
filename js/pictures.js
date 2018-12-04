@@ -82,6 +82,13 @@ var ScaleValue = {
 };
 var DEFAULT_EFFECT = 'none';
 
+var Hashtag = {
+  QUANITY: 5,
+  HASH_SYMBOL: '#',
+  MAX_LENGTH: 20,
+  MIN_LENGTH: 2
+};
+
 var pictures = [];
 var commentsListElement = document.querySelector('.social__comments');
 
@@ -100,6 +107,9 @@ var bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__canc
 
 var uploadElement = document.querySelector('.img-upload');
 var uploadFileElement = uploadElement.querySelector('#upload-file');
+// var uploadFormElement = uploadElement.querySelector('.img-upload__form');
+var uploadTextAreaElement = uploadElement.querySelector('.img-upload__text');
+var uploadSubmitElement = uploadElement.querySelector('.img-upload__submit');
 var uploadPopupElement = uploadElement.querySelector('.img-upload__overlay');
 var uploadPopupCloseElement = uploadElement.querySelector('#upload-cancel');
 var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
@@ -114,7 +124,7 @@ var effectLevelElement = uploadElement.querySelector('.effect-level');
 var effectsListElement = uploadElement.querySelector('.effects__list');
 var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
 
-var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
+// var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
 
 var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
 var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
@@ -129,7 +139,8 @@ var inputLoadFileElement = document.querySelector('#upload-file');
 // var preview = document.querySelector('.img-upload__preview img');
 
 
-// var hashtag = document.querySelector('.text__hashtags');
+var hashtagElement = document.querySelector('.text__hashtags');
+var descriptionElement = document.querySelector('.text__description');
 
 
 var getRandomInteger = function (min, max) {
@@ -366,85 +377,119 @@ scaleBiggerElement.addEventListener('click', function () {
 
 // валидация
 
-// var checkRepeatHashtags = function (array) {
-//   for (var i = 0; i < array.length; i++) {
-//     var a = array[i];
-//     for (var j = 0; j < array.length; j++) {
-//       if (a === array[j] && i !== j) {
-//         return true;
-//       }
-//     }
-//   }
-//   return false;
-// };
+var checkRepeatHashtags = function (hashtags) {
+  for (var i = 0; i < hashtags.length; i++) {
+    var currentHashtag = hashtags[i];
+    for (var j = 0; j < hashtags.length; j++) {
+      if (currentHashtag === hashtags[j] && i !== j) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
 
-// var validateHashtags = function (hashtags) {
-//   for (var i = 0; i < hashtags.length; i++) {
-//     if (hashtags[i][0] !== '#') {
-//       hashtag.setCustomValidity('Хэштег должен начинаться с символа #');
-//     } else if (hashtags[i].length > 20) {
-//       hashtag.setCustomValidity('Длинна хештега не должна превышать 20 символов');
-//     } else if (hashtags.length > 5) {
-//       hashtag.setCustomValidity('Допстимое значение - не больше 5 хэштегов');
-//     } else if (checkRepeatHashtags(hashtags)) {
-//       hashtag.setCustomValidity('Не должны повторяться');
-//     } else {
-//       hashtag.setCustomValidity('');
-//     }
-//   }
-// };
-//
-// hashtag.addEventListener('input', function () {
-//   var hashValue = hashtag.value;
-//   var hashArrays = hashValue.split(' ');
-//   validateHashtags(hashArrays);
-// });
+var validateHashtags = function (hashtags) {
+  for (var i = 0; i < hashtags.length; i++) {
+    hashtags[i] = hashtags[i].toLowerCase();
+    if (hashtags[i][0] !== Hashtag.HASH_SYMBOL && hashtags[i][0] !== ' ') {
+      hashtagElement.setCustomValidity('Хэштег должен начинаться с символа # и не содержать пробелов');
+    } else if (hashtags[i].length > Hashtag.MAX_LENGTH) {
+      hashtagElement.setCustomValidity('Длина хештега не должна превышать 20 символов');
+    } else if (hashtags[i].length === 1) {
+      hashtagElement.setCustomValidity('Хештег не может состоять только из одной решётки');
+    } else if (hashtags.length > Hashtag.QUANITY) {
+      hashtagElement.setCustomValidity('Допустимое количество  хэштегов  не более 5');
+    } else if (checkRepeatHashtags(hashtags)) {
+      hashtagElement.setCustomValidity('Хэштеги не должны повторяться');
+    } else if (hashtags[i].indexOf('#', 1) !== -1) {
+      hashtagElement.setCustomValidity('Хэштеги должны разделяться пробелами');
+    } else {
+      hashtagElement.setCustomValidity('');
+    }
+  }
+};
 
+var highlightInvalidField = function (field) {
+  if (!field.validity.valid) {
+    field.style.border = '2px solid red';
+  } else {
+    field.style.border = 'none';
+  }
+};
+
+
+hashtagElement.addEventListener('input', function () {
+  var hashtags = hashtagElement.value.toLowerCase().split(' ');
+  validateHashtags(hashtags);
+  highlightInvalidField(hashtagElement);
+});
+
+uploadSubmitElement.addEventListener('submit', function () {
+  highlightInvalidField(hashtagElement);
+  highlightInvalidField(uploadTextAreaElement);
+});
+
+
+hashtagElement.addEventListener('focusin', function () {
+  document.removeEventListener('keydown', onFormEscPress);
+});
+
+hashtagElement.addEventListener('focusout', function () {
+  document.addEventListener('keydown', onFormEscPress);
+});
+
+descriptionElement.addEventListener('focusin', function () {
+  document.removeEventListener('keydown', onFormEscPress);
+});
+
+descriptionElement.addEventListener('focusout', function () {
+  document.addEventListener('keydown', onFormEscPress);
+});
 
 // drag and drop
 
-var setPinPosition = function (value) {
-  effectPinElement.style.left = value + '%';
-  effectLevelValueElement.value = Math.round(value);
-  effectDepthElement.style.width = effectPinElement.style.left;
-};
+// var setPinPosition = function (value) {
+//   effectPinElement.style.left = value + '%';
+//   effectLevelValueElement.value = Math.round(value);
+//   effectDepthElement.style.width = effectPinElement.style.left;
+// };
 
 
-var onMouseDown = function (evt) {
-
-  var startCoordX = evt.clientX;
-  var sliderEffectLineRect = effectLineElement.getBoundingClientRect();
-  var clickedPosition = (startCoordX - sliderEffectLineRect.left) / sliderEffectLineRect.width * 100;
-
-  setPinPosition(clickedPosition);
-  applyEffect(clickedPosition);
-
-  var onMouseMove = function (moveEvt) {
-    var shiftX = startCoordX - moveEvt.clientX;
-    startCoordX = moveEvt.clientX;
-    // console.log(moveEvt);
-    var movePosition = (effectPinElement.offsetLeft - shiftX) / sliderEffectLineRect.width * 100;
-
-    if (movePosition <= PinValue.MIN) {
-      movePosition = PinValue.MIN;
-      effectLevelValueElement.value = PinValue.MIN;
-    } else if (movePosition >= PinValue.MAX) {
-      movePosition = PinValue.MAX;
-      effectLevelValueElement.value = PinValue.MAX;
-    }
-
-    setPinPosition(movePosition);
-    applyEffect(movePosition);
-  };
-
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mousemove', onMouseUp);
-  };
-
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-};
-
-effectLineElement.addEventListener('mousedown', onMouseDown);
+// var onMouseDown = function (evt) {
+//
+//   var startCoordX = evt.clientX;
+//   var sliderEffectLineRect = effectLineElement.getBoundingClientRect();
+//   var clickedPosition = (startCoordX - sliderEffectLineRect.left) / sliderEffectLineRect.width * 100;
+//
+//   setPinPosition(clickedPosition);
+//   applyEffect(clickedPosition);
+//
+//   var onMouseMove = function (moveEvt) {
+//     var shiftX = startCoordX - moveEvt.clientX;
+//     startCoordX = moveEvt.clientX;
+//     var movePosition = (effectPinElement.offsetLeft - shiftX) / sliderEffectLineRect.width * 100;
+//
+//     if (movePosition <= PinValue.MIN) {
+//       movePosition = PinValue.MIN;
+//       effectLevelValueElement.value = PinValue.MIN;
+//     } else if (movePosition >= PinValue.MAX) {
+//       movePosition = PinValue.MAX;
+//       effectLevelValueElement.value = PinValue.MAX;
+//     }
+//
+//     setPinPosition(movePosition);
+//     applyEffect(movePosition);
+//   };
+//
+//   var onMouseUp = function (upEvt) {
+//     upEvt.preventDefault();
+//     document.removeEventListener('mousemove', onMouseMove);
+//     document.removeEventListener('mousemove', onMouseUp);
+//   };
+//
+//   document.addEventListener('mousemove', onMouseMove);
+//   document.addEventListener('mouseup', onMouseUp);
+// };
+//
+// effectLineElement.addEventListener('mousedown', onMouseDown);
