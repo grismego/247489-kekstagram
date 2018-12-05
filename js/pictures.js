@@ -124,7 +124,7 @@ var effectLevelElement = uploadElement.querySelector('.effect-level');
 var effectsListElement = uploadElement.querySelector('.effects__list');
 var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
 
-// var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
+var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
 
 var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
 var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
@@ -449,47 +449,47 @@ descriptionElement.addEventListener('focusout', function () {
 
 // drag and drop
 
-// var setPinPosition = function (value) {
-//   effectPinElement.style.left = value + '%';
-//   effectLevelValueElement.value = Math.round(value);
-//   effectDepthElement.style.width = effectPinElement.style.left;
-// };
+var setPinPosition = function (value) {
+  effectPinElement.style.left = value + '%';
+  effectLevelValueElement.value = Math.round(value);
+  effectDepthElement.style.width = effectPinElement.style.left;
+};
 
 
-// var onMouseDown = function (evt) {
-//
-//   var startCoordX = evt.clientX;
-//   var sliderEffectLineRect = effectLineElement.getBoundingClientRect();
-//   var clickedPosition = (startCoordX - sliderEffectLineRect.left) / sliderEffectLineRect.width * 100;
-//
-//   setPinPosition(clickedPosition);
-//   applyEffect(clickedPosition);
-//
-//   var onMouseMove = function (moveEvt) {
-//     var shiftX = startCoordX - moveEvt.clientX;
-//     startCoordX = moveEvt.clientX;
-//     var movePosition = (effectPinElement.offsetLeft - shiftX) / sliderEffectLineRect.width * 100;
-//
-//     if (movePosition <= PinValue.MIN) {
-//       movePosition = PinValue.MIN;
-//       effectLevelValueElement.value = PinValue.MIN;
-//     } else if (movePosition >= PinValue.MAX) {
-//       movePosition = PinValue.MAX;
-//       effectLevelValueElement.value = PinValue.MAX;
-//     }
-//
-//     setPinPosition(movePosition);
-//     applyEffect(movePosition);
-//   };
-//
-//   var onMouseUp = function (upEvt) {
-//     upEvt.preventDefault();
-//     document.removeEventListener('mousemove', onMouseMove);
-//     document.removeEventListener('mousemove', onMouseUp);
-//   };
-//
-//   document.addEventListener('mousemove', onMouseMove);
-//   document.addEventListener('mouseup', onMouseUp);
-// };
-//
-// effectLineElement.addEventListener('mousedown', onMouseDown);
+var onMouseDown = function (evt) {
+
+  var startCoordX = evt.clientX;
+  var sliderEffectLineRect = effectLineElement.getBoundingClientRect();
+  var clickedPosition = (startCoordX - sliderEffectLineRect.left) / sliderEffectLineRect.width * 100;
+
+  setPinPosition(clickedPosition);
+  applyEffect(clickedPosition);
+
+  var onMouseMove = function (moveEvt) {
+    var shiftX = startCoordX - moveEvt.clientX;
+    startCoordX = moveEvt.clientX;
+    var movePosition = (effectPinElement.offsetLeft - shiftX) / sliderEffectLineRect.width * 100;
+
+    if (movePosition <= PinValue.MIN) {
+      movePosition = PinValue.MIN;
+      effectLevelValueElement.value = PinValue.MIN;
+    } else if (movePosition >= PinValue.MAX) {
+      movePosition = PinValue.MAX;
+      effectLevelValueElement.value = PinValue.MAX;
+    }
+
+    setPinPosition(movePosition);
+    applyEffect(movePosition);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mousemove', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+};
+
+effectLineElement.addEventListener('mousedown', onMouseDown);
