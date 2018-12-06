@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+// модуль для форы
   var uploadElement = document.querySelector('.img-upload');
   var uploadPopupElement = uploadElement.querySelector('.img-upload__overlay');
   var uploadFileElement = uploadElement.querySelector('#upload-file');

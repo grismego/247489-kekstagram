@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+// модуль для взаимодействия с изображениями
   var bigPictureElement = document.querySelector('.big-picture');
   var bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
   var commentsListElement = document.querySelector('.social__comments');
@@ -27,6 +27,8 @@
   bigPictureCloseElement.addEventListener('click', function () {
     closePhoto();
   });
+
+  window.picture.appendPicture();
 
   window.gallery = {
     openPhoto: openPhoto,

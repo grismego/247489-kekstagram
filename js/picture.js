@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  // модуль для отрисовки миниатюр
   var PHOTOS_COUNT = 25;
 
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -29,6 +30,8 @@
     picturesElement.appendChild(fragment);
   };
 
-  appendPicture();
+  window.picture = {
+    appendPicture: appendPicture
+  };
 
 })();

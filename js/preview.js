@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+// модуль для отрисовки увеличенного изображения
   var DISPLAY_COMMENTS = 5;
   var FIRST_AVATAR = 1;
   var LAST_AVATAR = 6;

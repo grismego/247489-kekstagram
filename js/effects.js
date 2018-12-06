@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+// модуль для эффектов
   var DEFAULT_EFFECT = 'none';
 
   var EffectParameter = {
