@@ -53,6 +53,10 @@
         };
       }
       return photos;
+    },
+    PinValue: {
+      MIN: 0,
+      MAX: 100
     }
   };
 

@@ -8,6 +8,20 @@
     },
     getRandomElement: function (elements) {
       return elements[window.util.getRandomInteger(0, elements.length - 1)];
-    }
+    },
+    KeyCode: {
+      ENTER: 13,
+      ESC: 27
+    },
+    isEscEvent: function (evt, action) {
+      if (evt.keyCode === window.util.KeyCode.ESC) {
+        action();
+      }
+    },
+    isEnterEvent: function (evt, action) {
+      if (evt.keyCode === window.util.KeyCode.ENTER) {
+        action();
+      }
+    },
   };
 })();
