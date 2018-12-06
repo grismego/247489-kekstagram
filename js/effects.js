@@ -38,7 +38,6 @@
       PROPERTY: 'brightness',
       MIN_VALUE: 1,
       MAX_VALUE: 3,
-      DEVIDER: 50,
       UNIT: ''
     }
   };
@@ -55,16 +54,18 @@
   var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
   var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__preview img');
   var effectsListElement = uploadElement.querySelector('.effects__list');
-  var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
-  var currentEffectClass = 'effects__preview--' + currentEffectName;
   var effectLevelElement = uploadElement.querySelector('.effect-level');
   var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
   var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
   var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
   var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
+  var defaultRadioElement = effectsListElement.querySelector('#effect-' + DEFAULT_EFFECT);
+  var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
+  var currentEffectClass = 'effects__preview--' + currentEffectName;
 
 
   var applyEffect = function (value) {
+    // debugger;
     switch (currentEffectClass) {
       case EffectParameter.chrome.CLASS:
         imgPreviewElement.style.filter = EffectParameter.chrome.PROPERTY + '(' + (value) / EffectValue.DEFAULT + EffectParameter.chrome.UNIT + ')';
@@ -79,7 +80,7 @@
         imgPreviewElement.style.filter = EffectParameter.phobos.PROPERTY + '(' + (value) * EffectParameter.phobos.MAX_VALUE / EffectValue.DEFAULT + EffectParameter.phobos.UNIT + ')';
         break;
       case EffectParameter.heat.CLASS:
-        imgPreviewElement.style.filter = EffectParameter.heat.PROPERTY + '(' + ((value) / EffectParameter.heat.DEVIDER + EffectParameter.heat.MIN_VALUE) + EffectParameter.heat.UNIT + ')';
+        imgPreviewElement.style.filter = EffectParameter.heat.PROPERTY + '(' + ((value) / (EffectValue.MAX / (EffectParameter.heat.MAX_VALUE - EffectParameter.heat.MIN_VALUE)) + EffectParameter.heat.MIN_VALUE) + EffectParameter.heat.UNIT + ')';
         break;
       default:
         imgPreviewElement.style.filter = '';
@@ -92,7 +93,6 @@
   };
 
   var setDefaultEffect = function () {
-    var defaultRadioElement = effectsListElement.querySelector('#effect-' + DEFAULT_EFFECT);
     defaultRadioElement.checked = true;
     imgPreviewElement.classList = '';
     imgPreviewElement.style.filter = '';

@@ -4,12 +4,10 @@
 // модуль для взаимодействия с изображениями
   var bigPictureElement = document.querySelector('.big-picture');
   var bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
-  var commentsListElement = document.querySelector('.social__comments');
 
   var openPhoto = function () {
     bigPictureElement.classList.remove('hidden');
     document.querySelector('body').classList.add('modal-open');
-    commentsListElement.innerHTML = '';
     document.addEventListener('keydown', onPhotoEscPress);
   };
 
