@@ -13,7 +13,7 @@
   var uploadElement = document.querySelector('.img-upload');
   var uploadTextAreaElement = uploadElement.querySelector('.img-upload__text');
   var uploadSubmitElement = uploadElement.querySelector('.img-upload__submit');
-  var descriptionElement = document.querySelector('.text__description');
+  // var descriptionElement = document.querySelector('.text__description');
 
   var checkRepeatHashtags = function (hashtags) {
     for (var i = 0; i < hashtags.length; i++) {
@@ -66,23 +66,6 @@
   uploadSubmitElement.addEventListener('submit', function () {
     highlightInvalidField(hashtagElement);
     highlightInvalidField(uploadTextAreaElement);
-  });
-
-
-  hashtagElement.addEventListener('focusin', function () {
-    document.removeEventListener('keydown', onFormEscPress);
-  });
-
-  hashtagElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', onFormEscPress);
-  });
-
-  descriptionElement.addEventListener('focusin', function () {
-    document.removeEventListener('keydown', onFormEscPress);
-  });
-
-  descriptionElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', onFormEscPress);
   });
 
 
