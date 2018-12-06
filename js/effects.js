@@ -2,18 +2,6 @@
 
 (function () {
 
-  var uploadElement = document.querySelector('.img-upload');
-  var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
-  var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__preview img');
-  var effectsListElement = uploadElement.querySelector('.effects__list');
-  var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
-  var currentEffectClass = 'effects__preview--' + currentEffectName;
-  var effectLevelElement = uploadElement.querySelector('.effect-level');
-  var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
-  var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
-  var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
-  var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
-
   var DEFAULT_EFFECT = 'none';
 
   var EffectParameter = {
@@ -62,6 +50,19 @@
     MAX: 100,
     DEFAULT: 100,
   };
+
+  var uploadElement = document.querySelector('.img-upload');
+  var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
+  var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__preview img');
+  var effectsListElement = uploadElement.querySelector('.effects__list');
+  var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
+  var currentEffectClass = 'effects__preview--' + currentEffectName;
+  var effectLevelElement = uploadElement.querySelector('.effect-level');
+  var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
+  var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
+  var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
+  var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
+
 
   var applyEffect = function (value) {
     switch (currentEffectClass) {
