@@ -16,18 +16,18 @@
 //   'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
 //   'Вот это тачка!'
 // ];
-var PHOTOS_COUNT = 25;
-var DISPLAY_COMMENTS = 5;
-var FIRST_AVATAR = 1;
-var LAST_AVATAR = 6;
+// var PHOTOS_COUNT = 25;
+// var DISPLAY_COMMENTS = 5;
+// var FIRST_AVATAR = 1;
+// var LAST_AVATAR = 6;
 // var Like = {
 //   MIN: 15,
 //   MAX: 200
 // };
-var KeyCode = {
-  ENTER: 13,
-  ESC: 27
-};
+// var KeyCode = {
+//   ENTER: 13,
+//   ESC: 27
+// };
 // var EffectParameter = {
 //   chrome: {
 //     CLASS: 'effects__preview--chrome',
@@ -70,10 +70,10 @@ var KeyCode = {
 //   MAX: 100,
 //   DEFAULT: 100,
 // };
-var PinValue = {
-  MIN: 0,
-  MAX: 100
-};
+// var PinValue = {
+//   MIN: 0,
+//   MAX: 100
+// };
 // var ScaleValue = {
 //   MIN: 25,
 //   STEP: 25,
@@ -89,31 +89,31 @@ var PinValue = {
 //   MIN_LENGTH: 2
 // };
 
-var pictures = [];
-var commentsListElement = document.querySelector('.social__comments');
-
-var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
-var picturesElement = document.querySelector('.pictures');
-var bigPictureElement = document.querySelector('.big-picture');
-var commentsLoaderElement = document.querySelector('.comments-loader');
-var commentCountElement = document.querySelector('.social__comment-count');
-commentsLoaderElement.classList.add('visually-hidden');
-commentCountElement.classList.add('visually-hidden');
-
-var bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
+// var pictures = [];
+// var commentsListElement = document.querySelector('.social__comments');
+//
+// var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+// var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
+// var picturesElement = document.querySelector('.pictures');
+// var bigPictureElement = document.querySelector('.big-picture');
+// var commentsLoaderElement = document.querySelector('.comments-loader');
+// var commentCountElement = document.querySelector('.social__comment-count');
+// commentsLoaderElement.classList.add('visually-hidden');
+// commentCountElement.classList.add('visually-hidden');
+//
+// var bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
 
 // Элементы для работы с формой загрузки нового фото
 
-var uploadElement = document.querySelector('.img-upload');
-var uploadFileElement = uploadElement.querySelector('#upload-file');
-// var uploadFormElement = uploadElement.querySelector('.img-upload__form');
-var uploadTextAreaElement = uploadElement.querySelector('.img-upload__text');
-var uploadSubmitElement = uploadElement.querySelector('.img-upload__submit');
-var uploadPopupElement = uploadElement.querySelector('.img-upload__overlay');
-var uploadPopupCloseElement = uploadElement.querySelector('#upload-cancel');
-var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
-var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__preview img');
+// var uploadElement = document.querySelector('.img-upload');
+// var uploadFileElement = uploadElement.querySelector('#upload-file');
+// // var uploadFormElement = uploadElement.querySelector('.img-upload__form');
+// var uploadTextAreaElement = uploadElement.querySelector('.img-upload__text');
+// var uploadSubmitElement = uploadElement.querySelector('.img-upload__submit');
+// var uploadPopupElement = uploadElement.querySelector('.img-upload__overlay');
+// var uploadPopupCloseElement = uploadElement.querySelector('#upload-cancel');
+// var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
+// var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__preview img');
 
 
 // var scaleElement = uploadElement.querySelector('.img-upload__scale');
@@ -122,20 +122,20 @@ var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__pre
 // var scaleBiggerElement = scaleElement.querySelector('.scale__control--bigger');
 //  Элементы для работы со слайдером
 
-var effectLevelElement = uploadElement.querySelector('.effect-level');
-var effectsListElement = uploadElement.querySelector('.effects__list');
-var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
-
-var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
-
-var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
-var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
-
-var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
-var currentEffectClass = 'effects__preview--' + currentEffectName;
-
-// var pictureContainer = document.querySelector('.pictures');
-var inputLoadFileElement = document.querySelector('#upload-file');
+// var effectLevelElement = uploadElement.querySelector('.effect-level');
+// var effectsListElement = uploadElement.querySelector('.effects__list');
+// var effectPinElement = effectLevelElement.querySelector('.effect-level__pin');
+//
+// var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
+//
+// var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
+// var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
+//
+// var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
+// var currentEffectClass = 'effects__preview--' + currentEffectName;
+//
+// // var pictureContainer = document.querySelector('.pictures');
+// var inputLoadFileElement = document.querySelector('#upload-file');
 // var reset = document.querySelector('.img-upload__cancel');
 // var line = document.querySelector('.effect-level__depth');
 // var preview = document.querySelector('.img-upload__preview img');
@@ -189,7 +189,6 @@ var inputLoadFileElement = document.querySelector('#upload-file');
 //     closePhoto();
 //   }
 // };
-
 
 
 // var closeForm = function () {
