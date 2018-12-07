@@ -8,6 +8,10 @@
   var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
   var commentsListElement = document.querySelector('.social__comments');
   var bigPictureElement = document.querySelector('.big-picture');
+  var commentsLoaderElement = document.querySelector('.comments-loader');
+  var commentCountElement = document.querySelector('.social__comment-count');
+  commentsLoaderElement.classList.add('visually-hidden');
+  commentCountElement.classList.add('visually-hidden');
 
   var createComment = function (comment) {
     var commentElement = commentTemplate.cloneNode(true);

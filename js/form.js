@@ -10,8 +10,6 @@
   var hashtagElement = document.querySelector('.text__hashtags');
   var descriptionElement = document.querySelector('.text__description');
   var uploadPopupCloseElement = uploadElement.querySelector('#upload-cancel');
-  var effectLevelElement = uploadElement.querySelector('.effect-level');
-  var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
 
   var openForm = function () {
     uploadPopupElement.classList.remove('hidden');
