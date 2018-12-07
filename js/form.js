@@ -17,7 +17,6 @@
     uploadPopupElement.classList.remove('hidden');
     window.effects.setDefaultPinPosition();
     window.effects.setDefaultEffect();
-    effectLevelValueElement.value = window.effects.PinValue.MAX;
     document.addEventListener('keydown', onFormEscPress);
   };
 
@@ -33,7 +32,6 @@
 
   uploadFileElement.addEventListener('change', function () {
     openForm();
-    window.effects.setDefaultPinPosition();
   });
 
   uploadPopupCloseElement.addEventListener('click', function () {

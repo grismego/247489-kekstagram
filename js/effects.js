@@ -88,6 +88,7 @@
   };
 
   var setDefaultPinPosition = function () {
+    effectLevelValueElement.value = window.effects.PinValue.MAX;
     effectPinElement.style.left = EffectValue.DEFAULT + '%';
     effectDepthElement.style.width = effectPinElement.style.left;
   };
