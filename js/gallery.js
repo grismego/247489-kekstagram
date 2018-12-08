@@ -26,7 +26,7 @@
     closePhoto();
   });
 
-  window.picture.appendPicture();
+  // window.picture.appendPicture();
 
   window.gallery = {
     openPhoto: openPhoto,
