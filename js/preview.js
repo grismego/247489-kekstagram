@@ -3,8 +3,6 @@
 (function () {
 // модуль для отрисовки увеличенного изображения
   var DISPLAY_COMMENTS = 5;
-  var FIRST_AVATAR = 1;
-  var LAST_AVATAR = 6;
   var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
   var commentsListElement = document.querySelector('.social__comments');
   var bigPictureElement = document.querySelector('.big-picture');
@@ -15,8 +13,9 @@
 
   var createComment = function (comment) {
     var commentElement = commentTemplate.cloneNode(true);
-    commentElement.querySelector('.social__picture').src = 'img/avatar-' + window.util.getRandomInteger(FIRST_AVATAR, LAST_AVATAR) + '.svg';
-    commentElement.querySelector('.social__text').textContent = comment;
+    commentElement.querySelector('.social__picture').src = comment.avatar;
+    commentElement.querySelector('.social__picture').title = comment.name;
+    commentElement.querySelector('.social__text').textContent = comment.message;
     return commentElement;
   };
 
