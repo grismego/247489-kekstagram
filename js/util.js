@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-// модуль утилит
+
   window.util = {
     getRandomInteger: function (min, max) {
       return Math.round(min - 0.5 + Math.random() * (max - min + 1));
@@ -23,5 +23,18 @@
         action();
       }
     },
+    shuffleArray: function (array) {
+      var results = [];
+      for (var i = 0; i < array.length; i++) {
+        var element = this.getRandomElement(array);
+        if (results.indexOf(element) !== -1) {
+          element = this.getRandomElement(array);
+          i--;
+        } else {
+          results.push(element);
+        }
+      }
+      return results;
+    }
   };
 })();

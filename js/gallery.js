@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-// модуль для взаимодействия с изображениями
+
   var bigPictureElement = document.querySelector('.big-picture');
   var bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
 
@@ -15,8 +15,8 @@
     bigPictureElement.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
     document.removeEventListener('keydown', onPhotoEscPress);
+    bigPictureElement.querySelector('.comments-loader').removeEventListener('click', window.preview.loadComments);
   };
-
 
   var onPhotoEscPress = function (evt) {
     window.util.isEscEvent(evt, closePhoto);
@@ -26,7 +26,6 @@
     closePhoto();
   });
 
-  // window.picture.appendPicture();
 
   window.gallery = {
     openPhoto: openPhoto,

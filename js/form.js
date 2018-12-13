@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-// модуль для форы
+
   var uploadFormElement = document.querySelector('#upload-select-image');
   var uploadElement = document.querySelector('.img-upload');
   var uploadPopupElement = uploadElement.querySelector('.img-upload__overlay');
@@ -72,6 +72,7 @@
     var modalElement = mainElement.querySelector('.modal');
     mainElement.removeChild(modalElement);
     document.removeEventListener('keydown', onModalEscPress);
+    modalElement.removeEventListener('click', onDocumentClick);
   };
 
   var showModalSucces = function (element) {

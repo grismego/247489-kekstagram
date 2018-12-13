@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-// модуль валидации формы
+
   var Hashtag = {
     QUANITY: 5,
     HASH_SYMBOL: '#',

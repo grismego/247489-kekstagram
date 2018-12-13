@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-// модуль для увеличения/уменьшения изображения
+
   var uploadElement = document.querySelector('.img-upload');
   var scaleElement = uploadElement.querySelector('.img-upload__scale');
   var scaleValueElement = scaleElement.querySelector('.scale__control--value');
