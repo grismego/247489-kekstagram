@@ -88,6 +88,7 @@
     element.querySelector('.error__button').addEventListener('click', function () {
       closeModal();
     });
+    element.addEventListener('click', onDocumentClick);
     document.addEventListener('keydown', onModalEscPress);
   };
 
@@ -129,8 +130,13 @@
   };
 
   uploadFormElement.addEventListener('submit', function (evt) {
-    window.upload(new FormData(uploadFormElement), onSuccess, onError);
+    window.backend.upload(new FormData(uploadFormElement), onSuccess, onError);
     uploadSendButtonElement.disabled = true;
     evt.preventDefault();
   });
+
+  window.form = {
+    error: showModalError
+  };
+
 })();

@@ -15,7 +15,7 @@
     bigPictureElement.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
     document.removeEventListener('keydown', onPhotoEscPress);
-    bigPictureElement.querySelector('.comments-loader').removeEventListener('click', window.preview.loadComments);
+    bigPictureElement.querySelector('.comments-loader').removeEventListener('click', window.comments.loadComments);
   };
 
   var onPhotoEscPress = function (evt) {

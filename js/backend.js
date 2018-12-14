@@ -5,25 +5,30 @@
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram/';
   var TIMEOUT = 10000;
-  var CODES = {
+  var Code = {
     OK: 200,
     NOT_FOUND: 404,
     INTERNAL_SERVER_ERROR: 500
   };
 
-  var createRequest = function (method, url, xhr) {
-    xhr.timeout = TIMEOUT;
-    xhr.open(method, url);
-  };
-
-  window.load = function (onSuccess, onError) {
+  var createRequest = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
+    xhr.timeout = TIMEOUT;
     xhr.addEventListener('load', function () {
-      if (xhr.status === CODES.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      switch (xhr.status) {
+        case Code.OK:
+          onSuccess(xhr.response);
+          break;
+        case Code.INTERNAL_SERVER_ERROR:
+          onError('Внутренняя ошибка серевра: ' + xhr.status + ' ' + xhr.statusText);
+          break;
+        case Code.NOT_FOUND:
+          onError('404 Not Found');
+          break;
+        default:
+          onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+          break;
       }
     });
     xhr.addEventListener('error', function () {
@@ -32,39 +37,23 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-
-    createRequest('GET', URL_LOAD, xhr);
+    return xhr;
+  };
+  var load = function (onLoad, onError) {
+    var xhr = createRequest(onLoad, onError);
+    xhr.open('GET', URL_LOAD);
     xhr.send();
   };
 
-  window.upload = function (data, onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      switch (xhr.status) {
-        case CODES.OK:
-          onSuccess(xhr.response);
-          break;
-        case CODES.INTERNAL_SERVER_ERROR:
-          onError('Внутренняя ошибка серевра: ' + xhr.status + ' ' + xhr.statusText);
-          break;
-        case CODES.NOT_FOUND:
-          onError('404 Not Found');
-          break;
-        default:
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
-    });
-
-    createRequest('POST', URL_UPLOAD, xhr);
+  var upload = function (data, onLoad, onError) {
+    var xhr = createRequest(onLoad, onError);
+    xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
+  };
+
+  window.backend = {
+    load: load,
+    upload: upload
   };
 
 })();
