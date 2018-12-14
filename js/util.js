@@ -7,19 +7,19 @@
       return Math.round(min - 0.5 + Math.random() * (max - min + 1));
     },
     getRandomElement: function (elements) {
-      return elements[window.util.getRandomInteger(0, elements.length - 1)];
+      return elements[this.getRandomInteger(0, elements.length - 1)];
     },
     KeyCode: {
       ENTER: 13,
       ESC: 27
     },
     isEscEvent: function (evt, action) {
-      if (evt.keyCode === window.util.KeyCode.ESC) {
+      if (evt.keyCode === this.KeyCode.ESC) {
         action();
       }
     },
     isEnterEvent: function (evt, action) {
-      if (evt.keyCode === window.util.KeyCode.ENTER) {
+      if (evt.keyCode === this.KeyCode.ENTER) {
         action();
       }
     },
