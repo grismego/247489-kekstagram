@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-// модуль для эффектов
+
   var DEFAULT_EFFECT = 'none';
 
   var EffectParameter = {
@@ -65,7 +65,7 @@
 
 
   var applyEffect = function (value) {
-    // debugger;
+
     switch (currentEffectClass) {
       case EffectParameter.chrome.CLASS:
         imgPreviewElement.style.filter = EffectParameter.chrome.PROPERTY + '(' + (value) / EffectValue.DEFAULT + EffectParameter.chrome.UNIT + ')';
