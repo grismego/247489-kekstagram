@@ -17,17 +17,16 @@
     return commentElement;
   };
 
-
   var appendComments = function (comments) {
     commentsListElement.innerHTML = '';
     var commentsFragment = document.createDocumentFragment();
-    for (var i = 0; i < comments.length; i++) {
-      var comment = createComment(comments[i]);
-      if (i >= DISPLAY_COMMENTS) {
+    comments.forEach(function (currentItem, index) {
+      var comment = createComment(currentItem);
+      if (index >= DISPLAY_COMMENTS) {
         comment.classList.add('visually-hidden');
       }
       commentsFragment.appendChild(comment);
-    }
+    });
     commentsListElement.appendChild(commentsFragment);
   };
 
