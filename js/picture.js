@@ -37,7 +37,7 @@
   };
 
   var onError = function (errorMessage) {
-    window.form.error(errorModalTemplate, errorMessage);
+    window.error.showModalError(errorModalTemplate, errorMessage);
   };
 
 

@@ -51,8 +51,7 @@
   };
 
   var uploadElement = document.querySelector('.img-upload');
-  var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
-  var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__preview img');
+  var imgPreviewElement = uploadElement.querySelector('.img-upload__preview img');
   var effectsListElement = uploadElement.querySelector('.effects__list');
   var effectLevelElement = uploadElement.querySelector('.effect-level');
   var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');

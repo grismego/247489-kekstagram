@@ -14,7 +14,6 @@
 
   var errorModalTemplate = document.querySelector('#error').content.querySelector('.error');
   var successModalTemplate = document.querySelector('#success').content.querySelector('.success');
-  var mainElement = document.querySelector('main');
 
   var openForm = function () {
     uploadPopupElement.classList.remove('hidden');
@@ -29,6 +28,7 @@
     uploadFileElement.value = null;
     descriptionElement.value = null;
     hashtagElement.value = null;
+    window.scale.setDefaultScale();
     document.removeEventListener('keydown', onFormEscPress);
   };
 
@@ -61,51 +61,15 @@
     document.addEventListener('keydown', onFormEscPress);
   });
 
-  var showModalError = function (element, text) {
-    mainElement.appendChild(element);
-    element.querySelector('.error__title').textContent = text;
-    element.querySelector('.error__button').addEventListener('click', function () {
-      closeModal();
-    });
-    element.addEventListener('click', onDocumentClick);
-    document.addEventListener('keydown', onModalEscPress);
-  };
-
-  var closeModal = function () {
-    var modalElement = mainElement.querySelector('.modal');
-    mainElement.removeChild(modalElement);
-    document.removeEventListener('keydown', onModalEscPress);
-    modalElement.removeEventListener('click', onDocumentClick);
-  };
-
-  var showModalSucces = function (element) {
-    document.addEventListener('keydown', onModalEscPress);
-    mainElement.appendChild(element);
-    element.querySelector('.success__button').addEventListener('click', function () {
-      closeModal();
-    });
-    element.addEventListener('click', onDocumentClick);
-  };
-
-  var onDocumentClick = function (evt) {
-    if (evt.target.tagName === 'SECTION') {
-      closeModal();
-    }
-  };
-
-  var onModalEscPress = function (evt) {
-    window.util.isEscEvent(evt, closeModal);
-  };
-
 
   var onError = function (errorMessage) {
     closeForm();
-    showModalError(errorModalTemplate, errorMessage);
+    window.error.showModalError(errorModalTemplate, errorMessage);
   };
 
   var onSuccess = function () {
     closeForm();
-    showModalSucces(successModalTemplate);
+    window.success.showModalSucces(successModalTemplate);
   };
 
   uploadFormElement.addEventListener('submit', function (evt) {
@@ -114,8 +78,5 @@
     evt.preventDefault();
   });
 
-  window.form = {
-    error: showModalError
-  };
 
 })();

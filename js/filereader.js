@@ -7,8 +7,7 @@
       var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
       var uploadElement = document.querySelector('.img-upload');
       var uploadFileElement = uploadElement.querySelector('#upload-file');
-      var imgPreviewWrapperElement = uploadElement.querySelector('.img-upload__preview');
-      var imgPreviewElement = imgPreviewWrapperElement.querySelector('.img-upload__preview img');
+      var imgPreviewElement = uploadElement.querySelector('.img-upload__preview img');
 
       var file = uploadFileElement.files[0];
       var filename = file.name.toLowerCase();

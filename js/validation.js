@@ -49,9 +49,9 @@
 
   var highlightInvalidField = function (field) {
     if (!field.validity.valid) {
-      field.style.border = '2px solid red';
+      field.style.outline = '2px solid red';
     } else {
-      field.style.border = 'none';
+      field.style.outline = 'none';
     }
   };
 

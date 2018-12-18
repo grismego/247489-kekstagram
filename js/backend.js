@@ -2,8 +2,11 @@
 
 (function () {
 
-  var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
-  var URL_UPLOAD = 'https://js.dump.academy/kekstagram/';
+  var Url = {
+    GET: 'https://js.dump.academy/kekstagram/data',
+    POST: 'https://js.dump.academy/kekstagram/'
+  };
+
   var TIMEOUT = 10000;
   var Code = {
     OK: 200,
@@ -27,7 +30,7 @@
           onError('404 Not Found');
           break;
         default:
-          onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
           break;
       }
     });
@@ -41,13 +44,13 @@
   };
   var load = function (onLoad, onError) {
     var xhr = createRequest(onLoad, onError);
-    xhr.open('GET', URL_LOAD);
+    xhr.open('GET', Url.GET);
     xhr.send();
   };
 
   var upload = function (data, onLoad, onError) {
     var xhr = createRequest(onLoad, onError);
-    xhr.open('POST', URL_UPLOAD);
+    xhr.open('POST', Url.POST);
     xhr.send(data);
   };
 
