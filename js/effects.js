@@ -171,6 +171,5 @@
 
   window.effects = {
     setDefaultEffect: setDefaultEffect
-    // setDefaultPinPosition: setDefaultPinPosition
   };
 })();
