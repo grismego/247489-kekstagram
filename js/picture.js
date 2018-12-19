@@ -6,7 +6,6 @@
   var picturesElement = document.querySelector('.pictures');
   var filterElement = document.querySelector('.img-filters');
 
-  var errorModalTemplate = document.querySelector('#error').content.querySelector('.error');
   var photos = [];
 
   var renderPicture = function (picture) {
