@@ -30,6 +30,9 @@
         }
       }
       return results;
+    },
+    onFormEscPress: function (evt) {
+      window.util.isEscEvent(evt, window.form.closeForm);
     }
   };
 })();

@@ -7,20 +7,15 @@
   var uploadPopupElement = uploadElement.querySelector('.img-upload__overlay');
   var uploadFileElement = uploadElement.querySelector('#upload-file');
   var uploadSendButtonElement = uploadElement.querySelector('.img-upload__submit');
-
-  var hashtagElement = document.querySelector('.text__hashtags');
   var descriptionElement = document.querySelector('.text__description');
+  var hashtagElement = document.querySelector('.text__hashtags');
   var uploadPopupCloseElement = uploadElement.querySelector('#upload-cancel');
-
-  var errorModalTemplate = document.querySelector('#error').content.querySelector('.error');
-  var successModalTemplate = document.querySelector('#success').content.querySelector('.success');
 
   var openForm = function () {
     uploadPopupElement.classList.remove('hidden');
     uploadSendButtonElement.disabled = false;
-    window.effects.setDefaultPinPosition();
     window.effects.setDefaultEffect();
-    document.addEventListener('keydown', onFormEscPress);
+    document.addEventListener('keydown', window.util.onFormEscPress);
   };
 
   var closeForm = function () {
@@ -29,11 +24,7 @@
     descriptionElement.value = null;
     hashtagElement.value = null;
     window.scale.setDefaultScale();
-    document.removeEventListener('keydown', onFormEscPress);
-  };
-
-  var onFormEscPress = function (evt) {
-    window.util.isEscEvent(evt, closeForm);
+    document.removeEventListener('keydown', window.util.onFormEscPress);
   };
 
   uploadFileElement.addEventListener('change', function () {
@@ -45,31 +36,14 @@
     closeForm();
   });
 
-  hashtagElement.addEventListener('focusin', function () {
-    document.removeEventListener('keydown', onFormEscPress);
-  });
-
-  hashtagElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', onFormEscPress);
-  });
-
-  descriptionElement.addEventListener('focusin', function () {
-    document.removeEventListener('keydown', onFormEscPress);
-  });
-
-  descriptionElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', onFormEscPress);
-  });
-
-
   var onError = function (errorMessage) {
     closeForm();
-    window.error.showModalError(errorModalTemplate, errorMessage);
+    window.error.show(errorMessage);
   };
 
   var onSuccess = function () {
     closeForm();
-    window.success.showModalSucces(successModalTemplate);
+    window.success.show();
   };
 
   uploadFormElement.addEventListener('submit', function (evt) {
@@ -78,5 +52,8 @@
     evt.preventDefault();
   });
 
+  window.form = {
+    closeForm: closeForm
+  };
 
 })();

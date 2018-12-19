@@ -25,10 +25,16 @@
     [].slice.call(commentElements).slice(0, DISPLAY_COMMENTS).forEach(function (item) {
       item.classList.remove('visually-hidden');
     });
+    updateComments();
+    updateCommentsCount(commentsCount);
+  };
+
+  var updateComments = function () {
     if (!bigPictureElement.querySelector('.social__comment.visually-hidden')) {
       commentsLoaderElement.classList.add('visually-hidden');
+    } else {
+      commentsLoaderElement.classList.remove('visually-hidden');
     }
-    updateCommentsCount(commentsCount);
   };
 
   var updateCommentsCount = function (count) {
@@ -57,6 +63,7 @@
     bigPictureElement.querySelector('.likes-count').textContent = picture.likes;
     bigPictureElement.querySelector('.social__caption').textContent = picture.description;
     appendComments(picture.comments);
+    updateComments();
     commentsLoaderElement.addEventListener('click', function () {
       loadComments(picture.comments.length);
     });

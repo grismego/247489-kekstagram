@@ -6,7 +6,6 @@
   var picturesElement = document.querySelector('.pictures');
   var filterElement = document.querySelector('.img-filters');
 
-  var errorModalTemplate = document.querySelector('#error').content.querySelector('.error');
   var photos = [];
 
   var renderPicture = function (picture) {
@@ -37,9 +36,8 @@
   };
 
   var onError = function (errorMessage) {
-    window.error.showModalError(errorModalTemplate, errorMessage);
+    window.error.show(errorMessage);
   };
-
 
   window.backend.load(onLoad, onError);
 

@@ -3,6 +3,8 @@
 (function () {
 
   var mainElement = document.querySelector('main');
+  var errorModalTemplate = document.querySelector('#error').content.querySelector('.error');
+
   var onDocumentClick = function (evt) {
     if (evt.target.tagName === 'SECTION') {
       closeModal();
@@ -20,18 +22,18 @@
     window.util.isEscEvent(evt, closeModal);
   };
 
-  var showModalError = function (element, text) {
-    mainElement.appendChild(element);
-    element.querySelector('.error__title').textContent = text;
-    element.querySelector('.error__button').addEventListener('click', function () {
+  var showModalError = function (text) {
+    mainElement.appendChild(errorModalTemplate);
+    errorModalTemplate.querySelector('.error__title').textContent = text;
+    errorModalTemplate.querySelector('.error__button').addEventListener('click', function () {
       closeModal();
     });
-    element.addEventListener('click', onDocumentClick);
+    errorModalTemplate.addEventListener('click', onDocumentClick);
     document.addEventListener('keydown', onModalEscPress);
   };
 
   window.error = {
-    showModalError: showModalError
+    show: showModalError
   };
 
 })();
