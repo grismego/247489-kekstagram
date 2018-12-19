@@ -12,7 +12,6 @@
   var uploadElement = document.querySelector('.img-upload');
   var uploadTextAreaElement = uploadElement.querySelector('.img-upload__text');
   var uploadSubmitElement = uploadElement.querySelector('.img-upload__submit');
-  var hashtagElement = document.querySelector('.text__hashtags');
   var descriptionElement = document.querySelector('.text__description');
 
   var checkRepeatHashtags = function (hashtags) {

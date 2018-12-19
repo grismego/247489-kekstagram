@@ -54,6 +54,6 @@
 
   window.form = {
     closeForm: closeForm
-  }
+  };
 
 })();
