@@ -87,7 +87,7 @@
   };
 
   var setDefaultPinPosition = function () {
-    effectLevelValueElement.value = window.effects.PinValue.MAX;
+    effectLevelValueElement.value = PinValue.MAX;
     effectPinElement.style.left = EffectValue.DEFAULT + '%';
     effectDepthElement.style.width = effectPinElement.style.left;
   };
@@ -98,6 +98,7 @@
     imgPreviewElement.style.filter = '';
     imgPreviewElement.classList.add(DEFAULT_EFFECT);
     effectLevelElement.classList.add('hidden');
+    setDefaultPinPosition();
   };
 
   var setPinPosition = function (value) {
@@ -169,8 +170,7 @@
   effectLineElement.addEventListener('mousedown', onMouseDown);
 
   window.effects = {
-    setDefaultEffect: setDefaultEffect,
-    setDefaultPinPosition: setDefaultPinPosition,
-    PinValue: PinValue
+    setDefaultEffect: setDefaultEffect
+    // setDefaultPinPosition: setDefaultPinPosition
   };
 })();

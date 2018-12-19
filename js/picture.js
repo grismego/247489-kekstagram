@@ -37,9 +37,8 @@
   };
 
   var onError = function (errorMessage) {
-    window.error.showModalError(errorModalTemplate, errorMessage);
+    window.error.show(errorMessage);
   };
-
 
   window.backend.load(onLoad, onError);
 

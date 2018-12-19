@@ -3,6 +3,8 @@
 (function () {
 
   var mainElement = document.querySelector('main');
+  var successModalTemplate = document.querySelector('#success').content.querySelector('.success');
+
   var closeModal = function () {
     var modalElement = mainElement.querySelector('.modal');
     mainElement.removeChild(modalElement);
@@ -19,17 +21,17 @@
   var onModalEscPress = function (evt) {
     window.util.isEscEvent(evt, closeModal);
   };
-  var showModalSucces = function (element) {
+  var showModalSucces = function () {
     document.addEventListener('keydown', onModalEscPress);
-    mainElement.appendChild(element);
-    element.querySelector('.success__button').addEventListener('click', function () {
+    mainElement.appendChild(successModalTemplate);
+    successModalTemplate.querySelector('.success__button').addEventListener('click', function () {
       closeModal();
     });
-    element.addEventListener('click', onDocumentClick);
+    successModalTemplate.addEventListener('click', onDocumentClick);
   };
 
   window.success = {
-    showModalSucces: showModalSucces
+    show: showModalSucces
   };
 
 })();
