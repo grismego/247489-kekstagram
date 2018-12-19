@@ -8,7 +8,6 @@
   var openPhoto = function () {
     bigPictureElement.classList.remove('hidden');
     document.querySelector('body').classList.add('modal-open');
-    // window.preview.loadComments();
     document.addEventListener('keydown', onPhotoEscPress);
   };
 
